@@ -46,7 +46,14 @@ dependencies {
     implementation(libs.retrofit2.converter.gson)
     // Библиотеку Coil будем использовать для загрузки изображений.
     implementation(libs.coil.compose)
-
+    // Библиотека ля использования ViewModel
+    // дополнительно нужно добавить в файл libs.versions.toml следующее:
+    // [versions]
+    //lifecycle = "2.8.0"  # или актуальная версия (2.8.0, 2.8.1 и т. д.)
+    //
+    //[libraries]
+    //androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

@@ -3,6 +3,7 @@ package com.example.bookshelf
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import com.example.bookshelf.ui.BooksApp
 import com.example.bookshelf.ui.theme.BookShelfTheme
 
 class MainActivity : ComponentActivity() {
@@ -10,8 +11,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             BookShelfTheme {
-
+                BooksApp()
             }
         }
     }
+
 }
