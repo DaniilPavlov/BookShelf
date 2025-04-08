@@ -2,6 +2,7 @@ package com.example.bookshelf.ui.screens
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.example.bookshelf.data.Book
 import com.example.bookshelf.ui.BooksUiState
 
 // Modifier — это объект для настройки внешнего вида и поведения UI-компонентов в Jetpack Compose.
@@ -15,13 +16,15 @@ import com.example.bookshelf.ui.BooksUiState
 fun HomeScreen(
     booksUiState: BooksUiState,
     retryAction: () -> Unit,
-    modifier: Modifier
+    modifier: Modifier,
+    onBookClicked: (Book) -> Unit
 ) {
     when (booksUiState) {
         is BooksUiState.Loading -> LoadingScreen(modifier)
         is BooksUiState.Success -> BooksGridScreen(
             books = booksUiState.bookSearch,
-            modifier = modifier
+            modifier = modifier,
+            onBookClicked = onBookClicked,
         )
         is BooksUiState.Error -> ErrorScreen(retryAction = retryAction, modifier)
     }

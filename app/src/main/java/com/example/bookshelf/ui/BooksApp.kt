@@ -4,46 +4,49 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import com.example.bookshelf.R
 import com.example.bookshelf.ui.screens.HomeScreen
 import androidx.lifecycle.viewmodel.compose.viewModel
-
+import com.example.bookshelf.data.Book
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BooksApp(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onBookClicked: (Book) -> Unit,
 ) {
     val booksViewModel: BooksViewModel =
         viewModel(factory = BooksViewModel.Factory)
+    val searchWidgetState = booksViewModel.searchWidgetState
+    val searchTextState = booksViewModel.searchTextState
 
 
     // Scaffold – это корневая composable функция для размещения всех экранных компонентов.
     Scaffold(
         modifier = modifier.fillMaxSize(),
         topBar = {
-            MediumTopAppBar(
-                title = {
-                    Text(text = stringResource(id = R.string.app_name))
+            MainAppBar(
+                searchWidgetState = searchWidgetState.value,
+                searchTextState = searchTextState.value,
+                onTextChange = {
+                    booksViewModel.updateSearchTextState(newValue = it)
                 },
-                colors = TopAppBarDefaults.mediumTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer, // фон
-                    titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer, // цвет текста
-                    actionIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer // цвет иконок
-                )
+                onCloseClicked = {
+                    booksViewModel.updateSearchWidgetState(newValue = SearchWidgetState.CLOSED)
+                },
+                onSearchClicked = {
+                    booksViewModel.getBooks(it)
+                },
+                onSearchOpened = {
+                    booksViewModel.updateSearchWidgetState(newValue = SearchWidgetState.OPENED)
+                }
             )
         }
-
     ) {
-        // Surface – это поверхность для отрисовки компонентов. Surface следует общим шаблонам материального дизайна
+        // Surface – это поверхность для отрисовки компонентов. Он следует общим шаблонам материального дизайна
         Surface(
             modifier = modifier
                 .fillMaxSize()
@@ -53,7 +56,8 @@ fun BooksApp(
             HomeScreen(
                 booksUiState = booksViewModel.booksUiState,
                 retryAction = { booksViewModel.getBooks() },
-                modifier = modifier
+                modifier = modifier,
+                onBookClicked = onBookClicked,
             )
         }
     }

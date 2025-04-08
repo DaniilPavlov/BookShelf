@@ -52,7 +52,7 @@ dependencies {
     //lifecycle = "2.8.0"  # или актуальная версия (2.8.0, 2.8.1 и т. д.)
     //
     //[libraries]
-    //androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
+    //androidx-lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
     implementation(libs.androidx.lifecycle.viewmodel.compose)
 
     implementation(libs.androidx.core.ktx)
